@@ -14,6 +14,8 @@ const Login = () => {
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
 
+  const [user, setUser] = useState();
+
   const navigate = useNavigate();
 
   const handleClick = () => setShow(!show);
@@ -52,6 +54,8 @@ const Login = () => {
         position: "bottom",
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
+      const userInfo1 = JSON.parse(localStorage.getItem("userInfo"));
+      setUser(userInfo1);
       setLoading(false);
       navigate("/chats");
     } catch (error) {

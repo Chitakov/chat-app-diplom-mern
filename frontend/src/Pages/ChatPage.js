@@ -29,7 +29,7 @@ import SideDrawer from "../components/miscellaneous/SideDrawer";
 import { ChatState } from "../Context/ChatProvider";
 
 const ChatPage = () => {
-  // const [fetchAgain, setFetchAgain] = useState(false);
+  const [fetchAgain, setFetchAgain] = useState(false);
   const { user } = ChatState();
 
   return (
@@ -42,12 +42,10 @@ const ChatPage = () => {
         h="91.5vh"
         p="10px"
       >
-        {/* {user && <MyChats fetchAgain={fetchAgain} />}
+        {user && <MyChats fetchAgain={fetchAgain} />}
         {user && (
           <Chatbox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
-        )} */}
-        {user && <MyChats />}
-        {user && <Chatbox />}
+        )}
       </Box>
     </Box>
   );
