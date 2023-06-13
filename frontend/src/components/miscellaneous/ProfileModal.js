@@ -56,12 +56,12 @@ const ProfileModal = ({ user, children }) => {
               fontSize={{ base: "28px", md: "30px" }}
               fontFamily="Work sans"
             >
-              Email: {user.email}
+              Электронный адрес: {user.email}
             </Text>
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
+              Закрыть
             </Button>
           </ModalFooter>
         </ModalContent>

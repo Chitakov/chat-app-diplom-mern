@@ -25,7 +25,7 @@ const Signup = () => {
     setPicLoading(true);
     if (!name || !email || !password || !confirmpassword) {
       toast({
-        title: "Please Fill all the Feilds",
+        title: "Пожалуйста, заполните все поля",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -36,7 +36,7 @@ const Signup = () => {
     }
     if (password !== confirmpassword) {
       toast({
-        title: "Passwords Do Not Match",
+        title: "Пароли не совпадают",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -63,7 +63,7 @@ const Signup = () => {
       );
       console.log(data);
       toast({
-        title: "Registration Successful",
+        title: "Успешная регистрация",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -74,7 +74,7 @@ const Signup = () => {
       navigate("/chats");
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Произошла ошибка!",
         description: error.response.data.message,
         status: "error",
         duration: 5000,
@@ -89,7 +89,7 @@ const Signup = () => {
     setPicLoading(true);
     if (pics === undefined) {
       toast({
-        title: "Please Select an Image!",
+        title: "Пожалуйста, выберите изображение!",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -119,7 +119,7 @@ const Signup = () => {
         });
     } else {
       toast({
-        title: "Please Select an Image!",
+        title: "Пожалуйста, выберите изображение!",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -133,52 +133,52 @@ const Signup = () => {
   return (
     <VStack spacing="5px" color="black">
       <FormControl id="first-name" isRequired>
-        <FormLabel>Name</FormLabel>
+        <FormLabel>Полное имя</FormLabel>
         <Input
-          placeholder="Enter Your Name"
+          placeholder="Введите своё полное имя"
           onChange={(e) => setName(e.target.value)}
         />
       </FormControl>
       <FormControl id="email" isRequired>
-        <FormLabel>Email Address</FormLabel>
+        <FormLabel>Электронный адрес</FormLabel>
         <Input
           type="email"
-          placeholder="Enter Your Email Address"
+          placeholder="Введите свой электронный адрес"
           onChange={(e) => setEmail(e.target.value)}
         />
       </FormControl>
       <FormControl id="password" isRequired>
-        <FormLabel>Password</FormLabel>
+        <FormLabel>Пароль</FormLabel>
         <InputGroup size="md">
           <Input
             type={show ? "text" : "password"}
-            placeholder="Enter Password"
+            placeholder="Введите пароль"
             onChange={(e) => setPassword(e.target.value)}
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={handleClick}>
-              {show ? "Hide" : "Show"}
+              {show ? "Скрыть" : "Показать"}
             </Button>
           </InputRightElement>
         </InputGroup>
       </FormControl>
       <FormControl id="password" isRequired>
-        <FormLabel>Confirm Password</FormLabel>
+        <FormLabel>Подтверждение пароля</FormLabel>
         <InputGroup size="md">
           <Input
             type={show ? "text" : "password"}
-            placeholder="Confirm password"
+            placeholder="Подтвертите пароль"
             onChange={(e) => setConfirmpassword(e.target.value)}
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={handleClick}>
-              {show ? "Hide" : "Show"}
+              {show ? "Скрыть" : "Показать"}
             </Button>
           </InputRightElement>
         </InputGroup>
       </FormControl>
       <FormControl id="pic">
-        <FormLabel>Upload your Picture</FormLabel>
+        <FormLabel>Загрузите своё изображение</FormLabel>
         <Input
           type="file"
           p={1.5}
@@ -193,7 +193,7 @@ const Signup = () => {
         onClick={submitHandler}
         isLoading={picLoading}
       >
-        Sign Up
+        Зарегистрироваться
       </Button>
     </VStack>
   );

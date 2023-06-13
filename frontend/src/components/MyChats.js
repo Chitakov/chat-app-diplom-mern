@@ -30,8 +30,8 @@ const MyChats = ({ fetchAgain }) => {
       setChats(data);
     } catch (error) {
       toast({
-        title: "Error Occured!",
-        description: "Failed to Load the chats",
+        title: "Произошла ошибка!",
+        description: "Не удалось загрузить чаты",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -67,14 +67,14 @@ const MyChats = ({ fetchAgain }) => {
         justifyContent="space-between"
         alignItems="center"
       >
-        My Chats
+        Мои чаты
         <GroupChatModal>
           <Button
             dispay="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}
             rightIcon={<AddIcon />}
           >
-            New Group Chat
+            Создать группу
           </Button>
         </GroupChatModal>
       </Box>

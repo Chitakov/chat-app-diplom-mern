@@ -60,7 +60,7 @@ const SideDrawer = () => {
   const handleSearch = async () => {
     if (!search) {
       toast({
-        title: "Please Enter something in search",
+        title: "Пожалуйста, введите что-то в поиске",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -84,8 +84,8 @@ const SideDrawer = () => {
       setSearchResult(data);
     } catch (error) {
       toast({
-        title: "Error Occured!",
-        description: "Failed to Load the Search Results",
+        title: "Произошла ошибка!",
+        description: "Не получилось загрузить результаты поиска",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -113,7 +113,7 @@ const SideDrawer = () => {
       onClose();
     } catch (error) {
       toast({
-        title: "Error fetching the chat",
+        title: "Ошибка загрузки чата",
         description: error.message,
         status: "error",
         duration: 5000,
@@ -134,16 +134,20 @@ const SideDrawer = () => {
         p="5px 10px 5px 10px"
         borderWidth="5px"
       >
-        <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
+        <Tooltip
+          label="Поиск пользователей для чата"
+          hasArrow
+          placement="bottom-end"
+        >
           <Button variant="ghost" onClick={onOpen}>
             <i className="fas fa-search"></i>
             <Text display={{ base: "none", md: "flex" }} px={4}>
-              Search User
+              Поиск пользователя
             </Text>
           </Button>
         </Tooltip>
         <Text fontSize="2xl" fontFamily="Work sans">
-          Talk-A-Tive
+          Рабочий чат
         </Text>
         <div>
           <Menu>
@@ -155,7 +159,7 @@ const SideDrawer = () => {
               <BellIcon fontSize="2xl" m={1} />
             </MenuButton>
             <MenuList pl={2}>
-              {!notification.length && "No New Messages"}
+              {!notification.length && "Нет новых сообщений"}
               {notification.map((notif) => (
                 <MenuItem
                   key={notif._id}
@@ -165,8 +169,8 @@ const SideDrawer = () => {
                   }}
                 >
                   {notif.chat.isGroupChat
-                    ? `New Message in ${notif.chat.chatName}`
-                    : `New Message from ${getSender(user, notif.chat.users)}`}
+                    ? `Новое сообщение в ${notif.chat.chatName}`
+                    : `Новое сообщение от ${getSender(user, notif.chat.users)}`}
                 </MenuItem>
               ))}
             </MenuList>
@@ -182,10 +186,10 @@ const SideDrawer = () => {
             </MenuButton>
             <MenuList>
               <ProfileModal user={user}>
-                <MenuItem>My Profile</MenuItem>{" "}
+                <MenuItem>Мой профиль</MenuItem>{" "}
               </ProfileModal>
               <MenuDivider />
-              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+              <MenuItem onClick={logoutHandler}>Выйти</MenuItem>
             </MenuList>
           </Menu>
         </div>
@@ -194,16 +198,18 @@ const SideDrawer = () => {
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
+          <DrawerHeader borderBottomWidth="1px">
+            Поиск пользователей
+          </DrawerHeader>
           <DrawerBody>
             <Box display="flex" pb={2}>
               <Input
-                placeholder="Search by name or email"
+                placeholder="Искать по имени или эл. адресу"
                 mr={2}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              <Button onClick={handleSearch}>Go</Button>
+              <Button onClick={handleSearch}>Искать</Button>
             </Box>
             {loading ? (
               <ChatLoading />

@@ -10,14 +10,14 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (!name || !email || !password) {
     res.status(400);
-    throw new Error("Please Enter all the Feilds");
+    throw new Error("Пожалуйста, заполните все поля");
   }
 
   const userExists = await User.findOne({ email });
 
   if (userExists) {
     res.status(400);
-    throw new Error("User already exists");
+    throw new Error("Такой пользователь уже существует");
   }
 
   const user = await User.create({
@@ -38,7 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(400);
-    throw new Error("User not found");
+    throw new Error("Пользователь не найден");
   }
 });
 
@@ -59,7 +59,7 @@ const authUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(401);
-    throw new Error("Invalid Email or Password");
+    throw new Error("Неверная почта или пароль");
   }
 });
 

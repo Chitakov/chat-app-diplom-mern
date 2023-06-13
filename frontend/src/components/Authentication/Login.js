@@ -24,7 +24,7 @@ const Login = () => {
     setLoading(true);
     if (!email || !password) {
       toast({
-        title: "Please Fill all the Feilds",
+        title: "Пожалуйста, заполните все поля",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -47,7 +47,7 @@ const Login = () => {
       );
       console.log(JSON.stringify(data));
       toast({
-        title: "Login Successful",
+        title: "Успешный вход",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -60,7 +60,7 @@ const Login = () => {
       navigate("/chats");
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Произошла ошибка!",
         description: error.response.data.message,
         status: "error",
         duration: 5000,
@@ -74,26 +74,26 @@ const Login = () => {
   return (
     <VStack spacing="10px">
       <FormControl id="email" isRequired>
-        <FormLabel>Email Address</FormLabel>
+        <FormLabel>Электронный адрес</FormLabel>
         <Input
           value={email}
           type="email"
-          placeholder="Enter Your Email Address"
+          placeholder="Введите свою электронный адрес"
           onChange={(e) => setEmail(e.target.value)}
         />
       </FormControl>
       <FormControl id="password" isRequired>
-        <FormLabel>Password</FormLabel>
+        <FormLabel>Пароль</FormLabel>
         <InputGroup size="md">
           <Input
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type={show ? "text" : "password"}
-            placeholder="Enter password"
+            placeholder="Введите пароль"
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={handleClick}>
-              {show ? "Hide" : "Show"}
+              {show ? "Скрыть" : "Показать"}
             </Button>
           </InputRightElement>
         </InputGroup>
@@ -105,7 +105,7 @@ const Login = () => {
         onClick={submitHandler}
         isLoading={loading}
       >
-        Login
+        Войти
       </Button>
       <Button
         variant="solid"
@@ -116,7 +116,7 @@ const Login = () => {
           setPassword("123456");
         }}
       >
-        Get Guest User Credentials
+        Получить данные для входа, как Гость
       </Button>
     </VStack>
   );

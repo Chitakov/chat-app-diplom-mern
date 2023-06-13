@@ -52,8 +52,8 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       setSearchResult(data);
     } catch (error) {
       toast({
-        title: "Error Occured!",
-        description: "Failed to Load the Search Results",
+        title: "Произошла ошибка!",
+        description: "Не получилось загрузить результыты поиска",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -89,7 +89,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       setRenameLoading(false);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Произошла ошибка!",
         description: error.response.data.message,
         status: "error",
         duration: 5000,
@@ -104,7 +104,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const handleAddUser = async (user1) => {
     if (selectedChat.users.find((u) => u._id === user1._id)) {
       toast({
-        title: "User Already in group!",
+        title: "Этот пользователь уже в группе!",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -115,7 +115,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
     if (selectedChat.groupAdmin[0]._id !== user._id) {
       toast({
-        title: "Only admins can add someone!",
+        title: "Только Админ может добавлять участников!",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -145,7 +145,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       setLoading(false);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Произошла ошибка!",
         description: error.response.data.message,
         status: "error",
         duration: 5000,
@@ -160,7 +160,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const handleRemove = async (user1) => {
     if (selectedChat.groupAdmin[0]._id !== user._id && user1._id !== user._id) {
       toast({
-        title: "Only admins can remove someone!",
+        title: "Только Админ может удалять участников!",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -191,7 +191,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       setLoading(false);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Произошла ошибка!",
         description: error.response.data.message,
         status: "error",
         duration: 5000,
@@ -237,7 +237,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
             </Box>
             <FormControl display="flex">
               <Input
-                placeholder="Chat Name"
+                placeholder="Название чата"
                 mb={3}
                 value={groupChatName}
                 onChange={(e) => setGroupChatName(e.target.value)}
@@ -249,12 +249,12 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
                 isLoading={renameloading}
                 onClick={handleRename}
               >
-                Update
+                Обновить
               </Button>
             </FormControl>
             <FormControl>
               <Input
-                placeholder="Add User to group"
+                placeholder="Добавить пользователя в группу"
                 mb={1}
                 onChange={(e) => handleSearch(e.target.value)}
               />
@@ -274,7 +274,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
           </ModalBody>
           <ModalFooter>
             <Button onClick={() => handleRemove(user)} colorScheme="red">
-              Leave Group
+              Покинуть группу
             </Button>
           </ModalFooter>
         </ModalContent>

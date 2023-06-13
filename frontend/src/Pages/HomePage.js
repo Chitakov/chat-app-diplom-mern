@@ -36,7 +36,7 @@ const Homepage = () => {
         borderWidth="1px"
       >
         <Text fontSize="4xl" fontFamily="Work sans" align="center">
-          Talk-A-Tive
+          Рабочий чат
         </Text>
       </Box>
       <Box
@@ -49,8 +49,8 @@ const Homepage = () => {
       >
         <Tabs isFitted variant="soft-rounded">
           <TabList mb="1em">
-            <Tab width="50%">Login</Tab>
-            <Tab width="50%">Sign Up</Tab>
+            <Tab width="50%">Вход</Tab>
+            <Tab width="50%">Регистрация</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

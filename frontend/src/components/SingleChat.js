@@ -60,8 +60,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       socket.emit("join chat", selectedChat._id);
     } catch (error) {
       toast({
-        title: "Error Occured!",
-        description: "Failed to Load the Messages",
+        title: "ПРоизошла ошибка!",
+        description: "Не удалось загрузить сообщения",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -93,8 +93,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         setMessages([...messages, data]);
       } catch (error) {
         toast({
-          title: "Error Occured!",
-          description: "Failed to send the Message",
+          title: "Произошла ошибка!",
+          description: "Не удалось отправить сообщение",
           status: "error",
           duration: 5000,
           isClosable: true,
@@ -241,7 +241,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               <Input
                 variant="filled"
                 bg="#E0E0E0"
-                placeholder="Enter a message.."
+                placeholder="Введите сообщение..."
                 value={newMessage}
                 onChange={typingHandler}
               />
@@ -257,7 +257,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           h="100%"
         >
           <Text fontSize="3xl" pb={3} fontFamily="Work sans">
-            Click on a user to start chatting
+            Нажмите на пользователя, чтобы начать разговор
           </Text>
         </Box>
       )}

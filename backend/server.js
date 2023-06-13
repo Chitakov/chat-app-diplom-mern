@@ -22,11 +22,6 @@ app.get("/", (req, res) => {
   res.send("API is running");
 });
 
-// если удалить, то будет ошибка, т.к. не будет существовать страницы, а оно перенаправляет на /chats
-// app.get("/api/chat", (req, res) => {
-//   res.send(chats);
-// });
-
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);

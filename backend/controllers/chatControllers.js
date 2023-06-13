@@ -79,7 +79,7 @@ const fetchChats = asyncHandler(async (req, res) => {
 //@access          Protected
 const createGroupChat = asyncHandler(async (req, res) => {
   if (!req.body.users || !req.body.name) {
-    return res.status(400).send({ message: "Please Fill all the feilds" });
+    return res.status(400).send({ message: "Пожалуйста, заполните все поля" });
   }
 
   var users = JSON.parse(req.body.users);
@@ -87,7 +87,7 @@ const createGroupChat = asyncHandler(async (req, res) => {
   if (users.length < 2) {
     return res
       .status(400)
-      .send("More than 2 users are required to form a group chat");
+      .send("В групповом чате требуется 2 и более пользователя");
   }
 
   users.push(req.user);
@@ -131,7 +131,7 @@ const renameGroup = asyncHandler(async (req, res) => {
 
   if (!updatedChat) {
     res.status(404);
-    throw new Error("Chat Not Found");
+    throw new Error("Чат не найден");
   } else {
     res.json(updatedChat);
   }
@@ -159,7 +159,7 @@ const addToGroup = asyncHandler(async (req, res) => {
 
   if (!added) {
     res.status(404);
-    throw new Error("Chat Not Found");
+    throw new Error("Чат не найден");
   } else {
     res.json(added);
   }
@@ -187,7 +187,7 @@ const removeFromGroup = asyncHandler(async (req, res) => {
 
   if (!removed) {
     res.status(404);
-    throw new Error("Chat Not Found");
+    throw new Error("Чат не найден");
   } else {
     res.json(removed);
   }
