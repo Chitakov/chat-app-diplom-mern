@@ -1,3 +1,5 @@
+import "../App.css";
+import Image from "../background-chat.jpg";
 import { FormControl } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
@@ -205,6 +207,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             h="100%"
             borderRadius="lg"
             overflowY="hidden"
+            // className="chat-image"
+            sx={{ backgroundImage: `url(${Image})` }}
           >
             {loading ? (
               <Spinner
@@ -241,6 +245,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               <Input
                 variant="filled"
                 bg="#E0E0E0"
+                color="white"
                 placeholder="Введите сообщение..."
                 value={newMessage}
                 onChange={typingHandler}
