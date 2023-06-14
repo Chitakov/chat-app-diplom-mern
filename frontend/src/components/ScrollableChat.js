@@ -8,9 +8,16 @@ import {
   isSameUser,
 } from "../config/ChatLogics";
 import { ChatState } from "../Context/ChatProvider";
+import CryptoJS from "crypto-js";
 
 const ScrollableChat = ({ messages }) => {
   const { user } = ChatState();
+
+  // // Функция для дешифрования сообщения
+  const decryptMessage = (encryptedMessage) => {
+    const bytes = CryptoJS.AES.decrypt(encryptedMessage, "myEncryptionKey");
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
 
   return (
     <ScrollableFeed>
@@ -42,7 +49,8 @@ const ScrollableChat = ({ messages }) => {
                 maxWidth: "75%",
               }}
             >
-              {m.content}
+              {decryptMessage(m.content)}
+              {/* {m.content} */}
             </span>
           </div>
         ))}

@@ -8,17 +8,21 @@ import { IconButton, Spinner, useToast } from "@chakra-ui/react";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
+import CryptoJS from "crypto-js"; // Import CryptoJS
+
+import { InputGroup, InputRightElement } from "@chakra-ui/react";
 
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
 const ENDPOINT = "http://localhost:5000"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket, selectedChatCompare;
+const encryptionKey = "myEncryptionKey";
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
@@ -28,6 +32,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
+  const [isSending, setIsSending] = useState(false); // Add isSending state variable
 
   const defaultOptions = {
     loop: true,
@@ -56,13 +61,24 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         `/api/message/${selectedChat._id}`,
         config
       );
-      setMessages(data);
+
+      // Дешифруем содержимое каждого сообщения
+      const decryptedMessages = data.map((message) => {
+        const decryptedContent = CryptoJS.AES.decrypt(
+          message.content,
+          encryptionKey
+        ).toString(CryptoJS.enc.Utf8);
+        message.content = decryptedContent;
+        return message;
+      });
+
+      setMessages(decryptedMessages);
       setLoading(false);
 
       socket.emit("join chat", selectedChat._id);
     } catch (error) {
       toast({
-        title: "ПРоизошла ошибка!",
+        title: "Произошла ошибка!",
         description: "Не удалось загрузить сообщения",
         status: "error",
         duration: 5000,
@@ -73,7 +89,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   const sendMessage = async (event) => {
-    if (event.key === "Enter" && newMessage) {
+    if (newMessage && !isSending) {
+      setIsSending(true);
       socket.emit("stop typing", selectedChat._id);
       try {
         const config = {
@@ -82,18 +99,27 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             Authorization: `Bearer ${user.token}`,
           },
         };
+
+        // Шифруем содержимое сообщения перед отправкой
+        const encryptedContent = CryptoJS.AES.encrypt(
+          newMessage,
+          encryptionKey
+        ).toString();
+
         setNewMessage("");
         const { data } = await axios.post(
           "/api/message",
           {
-            content: newMessage,
+            content: encryptedContent,
             chatId: selectedChat._id,
           },
           config
         );
         socket.emit("new message", data);
         setMessages([...messages, data]);
+        setIsSending(false);
       } catch (error) {
+        setIsSending(false);
         toast({
           title: "Произошла ошибка!",
           description: "Не удалось отправить сообщение",
@@ -134,6 +160,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           setFetchAgain(!fetchAgain);
         }
       } else {
+        // // Дешифруем содержимое полученного сообщения
+        // const decryptedContent = CryptoJS.AES.decrypt(
+        //   newMessageRecieved.content,
+        //   encryptionKey
+        // ).toString(CryptoJS.enc.Utf8);
+        // newMessageRecieved.content = decryptedContent;
+
         setMessages([...messages, newMessageRecieved]);
       }
     });
@@ -225,9 +258,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             )}
 
             <FormControl
-              onKeyDown={sendMessage}
-              // id="first-name"
-              isRequired
+              // onKeyDown={sendMessage}
+              // // id="first-name"
+              // isRequired
               mt={3}
             >
               {istyping ? (
@@ -242,14 +275,33 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               ) : (
                 <></>
               )}
-              <Input
-                variant="filled"
-                bg="#E0E0E0"
-                color="white"
-                placeholder="Введите сообщение..."
-                value={newMessage}
-                onChange={typingHandler}
-              />
+              <InputGroup>
+                <Input
+                  // variant="filled"
+                  // bg="#E0E0E0"
+                  color="white"
+                  placeholder="Введите сообщение..."
+                  className="custom-input"
+                  value={newMessage}
+                  onChange={typingHandler}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault(); // Prevent the default Enter key behavior (e.g., line break)
+                      sendMessage(); // Call sendMessage when the Enter key is pressed
+                    }
+                  }}
+                />
+                <InputRightElement width="4.5rem">
+                  <IconButton
+                    h="1.75rem"
+                    size="sm"
+                    icon={<ArrowForwardIcon />}
+                    onClick={sendMessage} // Call sendMessage when the IconButton is clicked
+                    isLoading={isSending}
+                    disabled={isSending}
+                  />
+                </InputRightElement>
+              </InputGroup>
             </FormControl>
           </Box>
         </>
