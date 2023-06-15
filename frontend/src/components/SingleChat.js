@@ -4,11 +4,17 @@ import { FormControl } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
 import "./styles.css";
-import { IconButton, Spinner, useToast } from "@chakra-ui/react";
+import { Button, IconButton, Spinner, useToast } from "@chakra-ui/react";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
+import {
+  ArrowBackIcon,
+  ArrowForwardIcon,
+  AttachmentIcon,
+  ArrowUpIcon,
+  ChatIcon,
+} from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 import Lottie from "react-lottie";
@@ -33,6 +39,36 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
   const [isSending, setIsSending] = useState(false); // Add isSending state variable
+
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleFileSubmit = async () => {
+    if (selectedFile) {
+      try {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+
+        // Отправить файл на сервер
+        const response = await axios.post("/api/message/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        // Обновить список сообщений после успешной загрузки файла
+        setMessages([...messages, response.data]);
+
+        // Очистить выбранный файл
+        setSelectedFile(null);
+      } catch (error) {
+        console.error("Ошибка при загрузке файла:", error);
+      }
+    }
+  };
 
   const defaultOptions = {
     loop: true,
@@ -277,6 +313,32 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               )}
               <InputGroup>
                 <Input
+                  type="file"
+                  onChange={handleFileChange}
+                  display="none"
+                  id="file-input"
+                />
+                <label htmlFor="file-input">
+                  <IconButton
+                    as="span"
+                    aria-label="Прикрепить файл"
+                    icon={<AttachmentIcon />}
+                    marginRight={2}
+                  />
+                </label>
+                {/* <Button
+                  onClick={handleFileSubmit}
+                  aria-label="Отправить файл"
+                  colorScheme="teal"
+                  variant="ghost"
+                  size="sm"
+                  p={0}
+                  m={0}
+                  marginLeft={2}
+                >
+                  <ChatIcon boxSize={6} />
+                </Button> */}
+                <Input
                   // variant="filled"
                   // bg="#E0E0E0"
                   color="white"
@@ -291,16 +353,17 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     }
                   }}
                 />
-                <InputRightElement width="4.5rem">
-                  <IconButton
-                    h="1.75rem"
-                    size="sm"
-                    icon={<ArrowForwardIcon />}
-                    onClick={sendMessage} // Call sendMessage when the IconButton is clicked
-                    isLoading={isSending}
-                    disabled={isSending}
-                  />
-                </InputRightElement>
+                {/* <InputRightElement width="4.5rem"> */}
+                <IconButton
+                  // h="1.75rem"
+                  // size="sm"
+                  icon={<ArrowForwardIcon />}
+                  onClick={sendMessage} // Call sendMessage when the IconButton is clicked
+                  isLoading={isSending}
+                  disabled={isSending}
+                  marginLeft={2}
+                />
+                {/* </InputRightElement> */}
               </InputGroup>
             </FormControl>
           </Box>
